@@ -13,9 +13,9 @@ const Home: NextPage = () => {
   const [cameraImgData, setCameraImgData] = useState<{ data: any }>()
   const imageRef1 = useRef<HTMLImageElement>()
   const imageRef2 = useRef<HTMLImageElement>()
-  const [ydqt, setYdqt] = useState(new Array(64).map(() => 0))
-  const [udqt, setUdqt] = useState(new Array(64).map(() => 0))
-  const [vdqt, setVdqt] = useState(new Array(64).map(() => 0))
+  const [ydqt, setYdqt] = useState(new Array(64).fill(0))
+  const [udqt, setUdqt] = useState(new Array(64).fill(0))
+  const [vdqt, setVdqt] = useState(new Array(64).fill(0))
   const readJpegFile = async (file: File) => {
     const buffer = await file.arrayBuffer()
     console.log(buffer)
@@ -57,7 +57,7 @@ const Home: NextPage = () => {
         // }
       }
       // const ret = jpegEncode(referenceImageObj, ydqt, udqt)
-      const ret = jpegEncode(referenceImageObj, 50, ydqt, udqt)
+      const ret = jpegEncode(referenceImageObj, 50, ydqt, udqt, vdqt)
       // const ret = jpegEncode(referenceImageObj, 50)
       console.log('JpegEncode', ret)
       imageRef2.current.src = `data:image/jpeg;base64,${ret.base64}`
@@ -65,7 +65,16 @@ const Home: NextPage = () => {
       imageRef2.current.height = img.height
     }
     img.src = referenceJpegFile.source.toString()
-  }, [cameraJpegFile, referenceJpegFile, imageRef1, imageRef2, cameraImgData])
+  }, [
+    cameraJpegFile,
+    referenceJpegFile,
+    imageRef1,
+    imageRef2,
+    cameraImgData,
+    ydqt,
+    udqt,
+    vdqt
+  ])
   return (
     <div>
       <Head>
